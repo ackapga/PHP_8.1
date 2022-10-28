@@ -1,8 +1,8 @@
 <?php
 
-namespace Blog;
+namespace Ackapga\Habrahabr\Blog;
 
-use Person\Person;
+use Ackapga\Habrahabr\Person\Person;
 
 class Post
 {
