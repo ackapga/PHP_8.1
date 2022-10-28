@@ -2,14 +2,12 @@
 
 namespace Ackapga\Habrahabr\Blog;
 
-use Ackapga\Habrahabr\Person\User;
-
-class Post
+class Comment
 {
     public function __construct(
         private int    $id,
         private int    $user_id,
-        private string $title,
+        private int    $post_id,
         private string $text
     )
     {
@@ -17,7 +15,7 @@ class Post
 
     public function __toString(): string
     {
-        return $this->title . PHP_EOL . $this->text;
+        return $this->text;
     }
 
     /**
@@ -53,19 +51,19 @@ class Post
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getTitle(): string
+    public function getPostId(): int
     {
-        return $this->title;
+        return $this->post_id;
     }
 
     /**
-     * @param string $title
+     * @param int $post_id
      */
-    public function setTitle(string $title): void
+    public function setPostId(int $post_id): void
     {
-        $this->title = $title;
+        $this->post_id = $post_id;
     }
 
     /**
