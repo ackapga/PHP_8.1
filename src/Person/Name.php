@@ -1,6 +1,6 @@
 <?php
 
-namespace Person;
+namespace Ackapga\Habrahabr\Person;
 
 class Name
 {
