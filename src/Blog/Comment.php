@@ -5,10 +5,10 @@ namespace Ackapga\Habrahabr\Blog;
 class Comment
 {
     public function __construct(
-        private int    $id,
-        private int    $user_id,
-        private int    $post_id,
-        private string $text
+        private ?UUID  $uuid = null,
+        private ?UUID  $post_uuid = null,
+        private ?UUID  $author_uuid = null,
+        private string $text,
     )
     {
     }
@@ -19,51 +19,51 @@ class Comment
     }
 
     /**
-     * @return int
+     * @return UUID|null
      */
-    public function getId(): int
+    public function getUuid(): ?UUID
     {
-        return $this->id;
+        return $this->uuid;
     }
 
     /**
-     * @param int $id
+     * @param UUID|null $uuid
      */
-    public function setId(int $id): void
+    public function setUuid(?UUID $uuid): void
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
     }
 
     /**
-     * @return int
+     * @return UUID|null
      */
-    public function getUserId(): int
+    public function getPostUuid(): ?UUID
     {
-        return $this->user_id;
+        return $this->post_uuid;
     }
 
     /**
-     * @param int $user_id
+     * @param UUID|null $post_uuid
      */
-    public function setUserId(int $user_id): void
+    public function setPostUuid(?UUID $post_uuid): void
     {
-        $this->user_id = $user_id;
+        $this->post_uuid = $post_uuid;
     }
 
     /**
-     * @return int
+     * @return UUID|null
      */
-    public function getPostId(): int
+    public function getAuthorUuid(): ?UUID
     {
-        return $this->post_id;
+        return $this->author_uuid;
     }
 
     /**
-     * @param int $post_id
+     * @param UUID|null $author_uuid
      */
-    public function setPostId(int $post_id): void
+    public function setAuthorUuid(?UUID $author_uuid): void
     {
-        $this->post_id = $post_id;
+        $this->author_uuid = $author_uuid;
     }
 
     /**
