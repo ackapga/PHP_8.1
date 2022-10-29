@@ -1,6 +1,6 @@
 <?php
 
-namespace Ackapga\Habrahabr\Blog\Repositories;
+namespace Ackapga\Habrahabr\Blog\Repositories\UsersRepository;
 
 use Ackapga\Habrahabr\Blog\Exceptions\UserNotFoundException;
 use Ackapga\Habrahabr\Blog\Interfaces\UsersRepositoryInterface;
