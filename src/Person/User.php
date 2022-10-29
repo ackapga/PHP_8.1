@@ -2,67 +2,64 @@
 
 namespace Ackapga\Habrahabr\Person;
 
+use Ackapga\Habrahabr\Blog\UUID;
+
 class User
 {
     public function __construct(
-        private int     $id,
-        private string  $firstName,
-        private ?string $lastname
+        private UUID $uuid,
+        private string $username,
+        private Name $name
     )
     {
     }
 
-    public function __toString(): string
-    {
-        return $this->firstName . ' ' . $this->lastname;
-    }
-
     /**
-     * @return int
+     * @return UUID
      */
-    public function getId(): int
+    public function getUuid(): UUID
     {
-        return $this->id;
+        return $this->uuid;
     }
 
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getUsername(): string
     {
-        return $this->firstName;
+        return $this->username;
     }
 
     /**
-     * @return string|null
+     * @return Name
      */
-    public function getLastname(): ?string
+    public function getName(): Name
     {
-        return $this->lastname;
+        return $this->name;
     }
 
     /**
-     * @param int $id
+     * @param UUID $uuid
      */
-    public function setId(int $id): void
+    public function setUuid(UUID $uuid): void
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
     }
 
     /**
-     * @param string $firstName
+     * @param string $username
      */
-    public function setFirstName(string $firstName): void
+    public function setUsername(string $username): void
     {
-        $this->firstName = $firstName;
+        $this->username = $username;
     }
 
     /**
-     * @param string|null $lastname
+     * @param Name $name
      */
-    public function setLastname(?string $lastname): void
+    public function setName(Name $name): void
     {
-        $this->lastname = $lastname;
+        $this->name = $name;
     }
 
 }

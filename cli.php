@@ -2,30 +2,20 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Ackapga\Habrahabr\Blog\{Post, Comment};
-use Ackapga\Habrahabr\Person\User;
+use Ackapga\Habrahabr\Blog\Commands\Arguments;
+use Ackapga\Habrahabr\Blog\Exceptions\ArgumentsException;
+use Ackapga\Habrahabr\Blog\Exceptions\CommandException;
+use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Blog\Repositories\UsersRepository\SqliteUsersRepository;
+use Ackapga\Habrahabr\Blog\Commands\CreateUserCommand;
 
-$faker = Faker\Factory::create('ru_RU');
+$usersRepository = new SqliteUsersRepository(
+    new PDO('sqlite:' . __DIR__ . '/database.sqlite')
+);
+$command = new CreateUserCommand($usersRepository);
 
-$message = 'Введите один из аргументов' . PHP_EOL . 'user' . PHP_EOL . 'post' . PHP_EOL . 'comment';
-
-if (empty($argv[1])) {
-    die($message);
-} else {
-    $inputDate = $argv[1];
+try { // Работа в Консоли(Командная строка)
+    $command->handle(Arguments::fromArgv($argv));
+} catch (ArgumentsException|CommandException|InvalidArgumentException $exception) {
+    echo "{$exception->getMessage()}\n";
 }
-
-switch ($inputDate) {
-    case 'user':
-        echo new User((int)$faker->uuid, $faker->firstName, $faker->lastName());
-        break;
-    case 'post':
-        echo new Post((int)$faker->uuid, (int)$faker->uuid(), $faker->realText(rand(20, 30)), $faker->realText('100'));
-        break;
-    case 'comment':
-        echo new Comment((int)$faker->uuid, (int)$faker->uuid(), (int)$faker->uuid(), $faker->realText('50'));
-        break;
-    default:
-        echo $message;
-}
-
