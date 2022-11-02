@@ -4,11 +4,13 @@ use Ackapga\Habrahabr\Blog\Repositories\CommentsRepository\SqliteCommentsReposit
 use Ackapga\Habrahabr\Blog\Repositories\UsersRepository\SqliteUsersRepository;
 use Ackapga\Habrahabr\Blog\Repositories\PostsRepository\SqlitePostsRepository;
 use Ackapga\Habrahabr\Http\Actions\Comments\CreateComment;
+use Ackapga\Habrahabr\Http\Actions\Comments\DeleteComment;
 use Ackapga\Habrahabr\Http\Actions\Comments\FindByUuidComment;
 use Ackapga\Habrahabr\Http\Actions\Posts\CreatePost;
-
+use Ackapga\Habrahabr\Http\Actions\Posts\DeletePost;
 use Ackapga\Habrahabr\Http\Actions\Posts\FindByUuid;
 use Ackapga\Habrahabr\Http\Actions\Users\CreateUser;
+use Ackapga\Habrahabr\Http\Actions\Users\DeleteUser;
 use Ackapga\Habrahabr\Http\ErrorResponse;
 use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Http\Actions\Users\FindByUsername;
@@ -58,6 +60,23 @@ $routes = [
                 new PDO('sqlite:' . __DIR__ . '/database.sqlite')
             )
         )
+    ],
+    'DELETE' => [
+        '/users' => new DeleteUser(
+            new SqliteUsersRepository(
+                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
+            ),
+        ),
+        '/posts' => new DeletePost(
+            new SqlitePostsRepository(
+                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
+            ),
+        ),
+        '/comments' => new DeleteComment(
+            new SqliteCommentsRepository(
+                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
+            ),
+        ),
     ],
 ];
 
