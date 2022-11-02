@@ -2,11 +2,11 @@
 
 namespace Ackapga\Habrahabr\Blog\Repositories\PostsRepository;
 
-use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
-use Ackapga\Habrahabr\Blog\Exceptions\PostNotFoundException;
-use Ackapga\Habrahabr\Blog\Interfaces\PostsRepositoryInterface;
 use Ackapga\Habrahabr\Blog\Post;
 use Ackapga\Habrahabr\Blog\UUID;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Exceptions\PostNotFoundException;
+use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
 use PDO;
 use PDOStatement;
 

@@ -3,7 +3,7 @@
 namespace Blog\Commands;
 
 use Ackapga\Habrahabr\Blog\Commands\Arguments;
-use Ackapga\Habrahabr\Blog\Exceptions\ArgumentsException;
+use Ackapga\Habrahabr\Exceptions\ArgumentsException;
 use PHPUnit\Framework\TestCase;
 
 class ArgumentsTest extends TestCase

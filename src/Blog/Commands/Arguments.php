@@ -2,7 +2,7 @@
 
 namespace Ackapga\Habrahabr\Blog\Commands;
 
-use Ackapga\Habrahabr\Blog\Exceptions\ArgumentsException;
+use Ackapga\Habrahabr\Exceptions\ArgumentsException;
 
 final class Arguments
 {

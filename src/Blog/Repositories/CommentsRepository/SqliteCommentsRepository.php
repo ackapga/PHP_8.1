@@ -3,10 +3,10 @@
 namespace Ackapga\Habrahabr\Blog\Repositories\CommentsRepository;
 
 use Ackapga\Habrahabr\Blog\Comment;
-use Ackapga\Habrahabr\Blog\Exceptions\CommentNotFoundException;
-use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
-use Ackapga\Habrahabr\Blog\Interfaces\CommentsRepositoryInterface;
 use Ackapga\Habrahabr\Blog\UUID;
+use Ackapga\Habrahabr\Exceptions\CommentNotFoundException;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Interfaces\CommentsRepositoryInterface;
 use PDO;
 use PDOStatement;
 

@@ -2,7 +2,7 @@
 
 namespace Ackapga\Habrahabr\Blog;
 
-use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 
 class UUID
 {
