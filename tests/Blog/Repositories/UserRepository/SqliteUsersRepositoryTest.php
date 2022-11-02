@@ -2,10 +2,10 @@
 
 namespace Blog\Repositories\UserRepository;
 
-use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
-use Ackapga\Habrahabr\Blog\Exceptions\UserNotFoundException;
 use Ackapga\Habrahabr\Blog\Repositories\UsersRepository\SqliteUsersRepository;
 use Ackapga\Habrahabr\Blog\UUID;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Exceptions\UserNotFoundException;
 use Ackapga\Habrahabr\Person\Name;
 use Ackapga\Habrahabr\Person\User;
 use PDO;

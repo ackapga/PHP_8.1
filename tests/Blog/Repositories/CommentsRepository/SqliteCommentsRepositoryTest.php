@@ -3,10 +3,10 @@
 namespace Blog\Repositories\CommentsRepository;
 
 use Ackapga\Habrahabr\Blog\Comment;
-use Ackapga\Habrahabr\Blog\Exceptions\CommentNotFoundException;
-use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
 use Ackapga\Habrahabr\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
 use Ackapga\Habrahabr\Blog\UUID;
+use Ackapga\Habrahabr\Exceptions\CommentNotFoundException;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
@@ -43,7 +43,7 @@ class SqliteCommentsRepositoryTest extends TestCase
     /**
      * @throws InvalidArgumentException
      */
-    public function testItThrowsAnExceptionWhenUserNotFound(): void
+    public function testItThrowsAnExceptionWhenCommentNotFound(): void
     {
         $connectionStub = $this->createStub(PDO::class);
 
