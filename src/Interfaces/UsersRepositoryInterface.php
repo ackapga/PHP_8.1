@@ -1,6 +1,6 @@
 <?php
 
-namespace Ackapga\Habrahabr\Blog\Interfaces;
+namespace Ackapga\Habrahabr\Interfaces;
 
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Person\User;
