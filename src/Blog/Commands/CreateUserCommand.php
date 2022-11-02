@@ -3,12 +3,12 @@
 namespace Ackapga\Habrahabr\Blog\Commands;
 
 
-use Ackapga\Habrahabr\Blog\Exceptions\CommandException;
-use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
-use Ackapga\Habrahabr\Blog\Exceptions\UserNotFoundException;
-use Ackapga\Habrahabr\Blog\Exceptions\ArgumentsException;
-use Ackapga\Habrahabr\Blog\Interfaces\UsersRepositoryInterface;
 use Ackapga\Habrahabr\Blog\UUID;
+use Ackapga\Habrahabr\Exceptions\ArgumentsException;
+use Ackapga\Habrahabr\Exceptions\CommandException;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Exceptions\UserNotFoundException;
+use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
 use Ackapga\Habrahabr\Person\Name;
 use Ackapga\Habrahabr\Person\User;
 

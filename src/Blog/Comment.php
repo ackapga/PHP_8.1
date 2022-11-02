@@ -2,12 +2,16 @@
 
 namespace Ackapga\Habrahabr\Blog;
 
+
+
+use Ackapga\Habrahabr\Person\User;
+
 class Comment
 {
     public function __construct(
         private UUID  $uuid,
-        private UUID  $post_uuid,
-        private UUID  $author_uuid,
+        private Post  $post_uuid,
+        private User  $author_uuid,
         private string $text,
     )
     {
@@ -35,33 +39,33 @@ class Comment
     }
 
     /**
-     * @return UUID
+     * @return Post
      */
-    public function getPostUuid(): UUID
+    public function getPostUuid(): Post
     {
         return $this->post_uuid;
     }
 
     /**
-     * @param UUID $post_uuid
+     * @param Post $post_uuid
      */
-    public function setPostUuid(UUID $post_uuid): void
+    public function setPostUuid(Post $post_uuid): void
     {
         $this->post_uuid = $post_uuid;
     }
 
     /**
-     * @return UUID
+     * @return User
      */
-    public function getAuthorUuid(): UUID
+    public function getAuthorUuid(): User
     {
         return $this->author_uuid;
     }
 
     /**
-     * @param UUID $author_uuid
+     * @param User $author_uuid
      */
-    public function setAuthorUuid(UUID $author_uuid): void
+    public function setAuthorUuid(User $author_uuid): void
     {
         $this->author_uuid = $author_uuid;
     }

@@ -3,10 +3,13 @@
 namespace Ackapga\Habrahabr\Blog\Repositories\CommentsRepository;
 
 use Ackapga\Habrahabr\Blog\Comment;
-use Ackapga\Habrahabr\Blog\Exceptions\CommentNotFoundException;
-use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
-use Ackapga\Habrahabr\Blog\Interfaces\CommentsRepositoryInterface;
+use Ackapga\Habrahabr\Blog\Post;
 use Ackapga\Habrahabr\Blog\UUID;
+use Ackapga\Habrahabr\Exceptions\CommentNotFoundException;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Interfaces\CommentsRepositoryInterface;
+use Ackapga\Habrahabr\Person\Name;
+use Ackapga\Habrahabr\Person\User;
 use PDO;
 use PDOStatement;
 
@@ -27,7 +30,11 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
     public function get(UUID $uuid): Comment
     {
         $statement = $this->connection->prepare(
-            'SELECT * FROM comments WHERE uuid = :uuid'
+            'SELECT * FROM comments LEFT JOIN posts
+                    ON comments.post_uuid = posts.uuid
+                    LEFT JOIN users
+                    ON posts.author_uuid = users.uuid
+                    WHERE comments.uuid = :uuid'
         );
         $statement->execute([
             ':uuid' => (string)$uuid,
@@ -48,8 +55,8 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
 
         $statement->execute([
             ':uuid' => (string)$comment->getUuid(),
-            ':post_uuid' => (string)$comment->getPostUuid(),
-            ':author_uuid' => (string)$comment->getAuthorUuid(),
+            ':post_uuid' => (string)$comment->getPostUuid()->getUuid(),
+            ':author_uuid' => (string)$comment->getAuthorUuid()->getUuid(),
             ':text' => $comment->getText(),
         ]);
     }
@@ -70,10 +77,25 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             );
         }
 
+        $user = new User(
+            new UUID($result['author_uuid']),
+            $result['username'],
+            new Name($result['first_name'], $result['last_name']
+            )
+        );
+
+        $post = new Post(
+            new UUID($result['post_uuid']),
+            $user,
+            $result['title'],
+            $result['text']
+
+        );
+
         return new Comment(
             new UUID($result['uuid']),
-            new UUID($result['post_uuid']),
-            new UUID($result['author_uuid']),
+            $post,
+            $user,
             $result['text']);
     }
 }

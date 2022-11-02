@@ -2,20 +2,23 @@
 
 namespace Ackapga\Habrahabr\Blog\Repositories\PostsRepository;
 
-use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
-use Ackapga\Habrahabr\Blog\Exceptions\PostNotFoundException;
-use Ackapga\Habrahabr\Blog\Interfaces\PostsRepositoryInterface;
 use Ackapga\Habrahabr\Blog\Post;
 use Ackapga\Habrahabr\Blog\UUID;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Exceptions\PostNotFoundException;
+use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
+use Ackapga\Habrahabr\Person\Name;
+use Ackapga\Habrahabr\Person\User;
 use PDO;
 use PDOStatement;
 
 class SqlitePostsRepository implements PostsRepositoryInterface
 {
-    public function __construct(
-        private PDO $connection
-    )
+    private PDO $connection;
+
+    public function __construct(PDO $connection)
     {
+        $this->connection = $connection;
     }
 
     /**
@@ -27,7 +30,9 @@ class SqlitePostsRepository implements PostsRepositoryInterface
     public function get(UUID $uuid): Post
     {
         $statement = $this->connection->prepare(
-            'SELECT * FROM posts WHERE uuid = :uuid'
+            'SELECT * FROM posts LEFT JOIN users
+                    ON posts.author_uuid = users.uuid
+                    WHERE posts.uuid = :uuid'
         );
         $statement->execute([
             ':uuid' => (string)$uuid,
@@ -48,7 +53,7 @@ class SqlitePostsRepository implements PostsRepositoryInterface
 
         $statement->execute([
             ':uuid' => (string)$post->getUuid(),
-            ':author_uuid' => (string)$post->getAuthorUuid(),
+            ':author_uuid' => (string)$post->getAuthorUuid()->getUuid(),
             ':title' => $post->getTitle(),
             ':text' => $post->getText(),
         ]);
@@ -64,15 +69,23 @@ class SqlitePostsRepository implements PostsRepositoryInterface
     private function getPost(PDOStatement $statement, string $uuid): Post
     {
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+
         if (false === $result) {
             throw new PostNotFoundException(
                 "Пост по UUID: " . $uuid . " не найден!"
             );
         }
 
+        $user = new User(
+            new UUID($result['author_uuid']),
+            $result['username'],
+            new Name($result['first_name'], $result['last_name']
+            )
+        );
+
         return new Post(
             new UUID($result['uuid']),
-            new UUID($result['author_uuid']),
+            $user,
             $result['title'],
             $result['text']);
     }

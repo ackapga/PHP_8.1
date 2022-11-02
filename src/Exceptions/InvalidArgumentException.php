@@ -1,6 +1,6 @@
 <?php
 
-namespace Ackapga\Habrahabr\Blog\Exceptions;
+namespace Ackapga\Habrahabr\Exceptions;
 
 class InvalidArgumentException extends \Exception
 {

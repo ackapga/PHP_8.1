@@ -2,11 +2,11 @@
 
 namespace Blog\Repositories\PostsRepository;
 
-use Ackapga\Habrahabr\Blog\Exceptions\InvalidArgumentException;
-use Ackapga\Habrahabr\Blog\Exceptions\PostNotFoundException;
 use Ackapga\Habrahabr\Blog\Post;
 use Ackapga\Habrahabr\Blog\Repositories\PostsRepository\SqlitePostsRepository;
 use Ackapga\Habrahabr\Blog\UUID;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Exceptions\PostNotFoundException;
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
@@ -43,7 +43,7 @@ class SqlitePostsRepositoryTest extends TestCase
     /**
      * @throws InvalidArgumentException
      */
-    public function testItThrowsAnExceptionWhenUserNotFound(): void
+    public function testItThrowsAnExceptionWhenPostNotFound(): void
     {
         $connectionStub = $this->createStub(PDO::class);
 

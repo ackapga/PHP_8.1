@@ -13,7 +13,7 @@ class Name
 
     public function __toString(): string
     {
-        return $this->firstName . ' ' . $this->lastName;
+        return ' Пользователь: ' . $this->firstName . ' ' . $this->lastName;
     }
 
     /**
