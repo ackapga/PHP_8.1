@@ -1,7 +1,7 @@
 <?php
 
-use Ackapga\Habrahabr\Blog\Commands\Arguments;
-use Ackapga\Habrahabr\Blog\Commands\CreateUserCommand;
+use Ackapga\Habrahabr\Commands\Arguments;
+use Ackapga\Habrahabr\Commands\CreateUserCommand;
 use Ackapga\Habrahabr\Exceptions\AppException;
 
 $container = include __DIR__ . '/bootstrap.php';
