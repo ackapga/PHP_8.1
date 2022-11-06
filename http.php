@@ -1,8 +1,6 @@
 <?php
 
-use Ackapga\Habrahabr\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
-use Ackapga\Habrahabr\Blog\Repositories\UsersRepository\SqliteUsersRepository;
-use Ackapga\Habrahabr\Blog\Repositories\PostsRepository\SqlitePostsRepository;
+use Ackapga\Habrahabr\Exceptions\AppException;
 use Ackapga\Habrahabr\Http\Actions\Comments\CreateComment;
 use Ackapga\Habrahabr\Http\Actions\Comments\DeleteComment;
 use Ackapga\Habrahabr\Http\Actions\Comments\FindByUuidComment;
@@ -15,71 +13,7 @@ use Ackapga\Habrahabr\Http\ErrorResponse;
 use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Http\Actions\Users\FindByUsername;
 
-require_once __DIR__ . '/vendor/autoload.php';
-
-$routes = [
-    'GET' => [
-        '/users/show' => new FindByUsername(
-            new SqliteUsersRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            )
-        ),
-        '/posts/show' => new FindByUuid(
-            new SqlitePostsRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            ),
-        ),
-        '/comments/show' => new FindByUuidComment(
-            new SqliteCommentsRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            ),
-        ),
-    ],
-    'POST' => [
-        '/users/create' => new CreateUser(
-            new SqliteUsersRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            )
-        ),
-        '/posts/create' => new CreatePost(
-            new SqliteUsersRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            ),
-            new SqlitePostsRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            ),
-        ),
-        '/comments/create' => new CreateComment(
-            new SqliteUsersRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            ),
-            new SqlitePostsRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            ),
-            new SqliteCommentsRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            )
-        )
-    ],
-    'DELETE' => [
-        '/users' => new DeleteUser(
-            new SqliteUsersRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            ),
-        ),
-        '/posts' => new DeletePost(
-            new SqlitePostsRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            ),
-        ),
-        '/comments' => new DeleteComment(
-            new SqliteCommentsRepository(
-                new PDO('sqlite:' . __DIR__ . '/database.sqlite')
-            ),
-        ),
-    ],
-];
-
+$container = require __DIR__ . '/bootstrap.php';
 
 $request = new Request(
     $_GET,
@@ -101,21 +35,42 @@ try {
 }
 
 
+$routes = [
+    'GET' => [
+        '/users/show' => FindByUsername::class,
+
+        '/posts/show' => FindByUuid::class,
+        '/comments/show' => FindByUuidComment::class,
+    ],
+    'POST' => [
+        '/users/create' => CreateUser::class,
+        '/posts/create' => CreatePost::class,
+        '/comments/create' => CreateComment::class,
+    ],
+    'DELETE' => [
+        '/users' => DeleteUser::class,
+        '/posts' => DeletePost::class,
+        '/comments' => DeleteComment::class,
+    ],
+];
+
+
 if (!array_key_exists($method, $routes)) {
-    (new ErrorResponse('Not found'))->send();
+    (new ErrorResponse("Route not found: $method $path"))->send();
     return;
 }
 if (!array_key_exists($path, $routes[$method])) {
-    (new ErrorResponse('Not found'))->send();
+    (new ErrorResponse("Route not found: $method $path"))->send();
     return;
 }
 
-$action = $routes[$method][$path];
+
+$actionClassName = $routes[$method][$path];
+$action = $container->get($actionClassName);
 
 try {
     $response = $action->handle($request);
-} catch (Exception $e) {
+} catch (AppException $e) {
     (new ErrorResponse($e->getMessage()))->send();
 }
-
 $response->send();
