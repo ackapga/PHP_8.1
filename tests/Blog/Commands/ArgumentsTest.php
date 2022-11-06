@@ -2,7 +2,7 @@
 
 namespace Blog\Commands;
 
-use Ackapga\Habrahabr\Blog\Commands\Arguments;
+use Ackapga\Habrahabr\Commands\Arguments;
 use Ackapga\Habrahabr\Exceptions\ArgumentsException;
 use PHPUnit\Framework\TestCase;
 

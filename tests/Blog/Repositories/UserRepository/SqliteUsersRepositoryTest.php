@@ -2,12 +2,12 @@
 
 namespace Blog\Repositories\UserRepository;
 
-use Ackapga\Habrahabr\Blog\Repositories\UsersRepository\SqliteUsersRepository;
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 use Ackapga\Habrahabr\Exceptions\UserNotFoundException;
 use Ackapga\Habrahabr\Person\Name;
 use Ackapga\Habrahabr\Person\User;
+use Ackapga\Habrahabr\Repositories\UsersRepository\SqliteUsersRepository;
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;

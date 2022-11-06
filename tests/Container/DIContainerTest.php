@@ -2,10 +2,10 @@
 
 namespace GeekBrains\Blog\UnitTests\Container;
 
-use Ackapga\Habrahabr\Blog\Repositories\UsersRepository\InMemoryUsersRepository;
 use Ackapga\Habrahabr\Container\DIContainer;
 use Ackapga\Habrahabr\Exceptions\NotFoundException;
 use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
+use Ackapga\Habrahabr\Repositories\UsersRepository\InMemoryUsersRepository;
 use PHPUnit\Framework\TestCase;
 
 class DIContainerTest extends TestCase

@@ -2,9 +2,9 @@
 
 namespace Blog\Commands;
 
-use Ackapga\Habrahabr\Blog\Commands\Arguments;
-use Ackapga\Habrahabr\Blog\Commands\CreateUserCommand;
 use Ackapga\Habrahabr\Blog\UUID;
+use Ackapga\Habrahabr\Commands\Arguments;
+use Ackapga\Habrahabr\Commands\CreateUserCommand;
 use Ackapga\Habrahabr\Exceptions\ArgumentsException;
 use Ackapga\Habrahabr\Exceptions\CommandException;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
