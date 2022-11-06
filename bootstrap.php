@@ -2,9 +2,11 @@
 
 use Ackapga\Habrahabr\Container\DIContainer;
 use Ackapga\Habrahabr\Interfaces\CommentsRepositoryInterface;
+use Ackapga\Habrahabr\Interfaces\LikeRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
 use Ackapga\Habrahabr\Repositories\CommentsRepository\SqliteCommentsRepository;
+use Ackapga\Habrahabr\Repositories\LikesRepository\SqliteLikeRepository;
 use Ackapga\Habrahabr\Repositories\PostsRepository\SqlitePostsRepository;
 use Ackapga\Habrahabr\Repositories\UsersRepository\SqliteUsersRepository;
 
@@ -30,6 +32,11 @@ $container->bind(
 $container->bind(
     CommentsRepositoryInterface::class,
     SqliteCommentsRepository::class
+);
+
+$container->bind(
+    LikeRepositoryInterface::class,
+    SqliteLikeRepository::class
 );
 
 return $container;

@@ -4,6 +4,9 @@ use Ackapga\Habrahabr\Exceptions\AppException;
 use Ackapga\Habrahabr\Http\Actions\Comments\CreateComment;
 use Ackapga\Habrahabr\Http\Actions\Comments\DeleteComment;
 use Ackapga\Habrahabr\Http\Actions\Comments\FindByUuidComment;
+use Ackapga\Habrahabr\Http\Actions\Likes\CreatePostLike;
+use Ackapga\Habrahabr\Http\Actions\Likes\DeletePostLike;
+use Ackapga\Habrahabr\Http\Actions\Likes\FindByUuidPostLikes;
 use Ackapga\Habrahabr\Http\Actions\Posts\CreatePost;
 use Ackapga\Habrahabr\Http\Actions\Posts\DeletePost;
 use Ackapga\Habrahabr\Http\Actions\Posts\FindByUuid;
@@ -38,19 +41,21 @@ try {
 $routes = [
     'GET' => [
         '/users/show' => FindByUsername::class,
-
         '/posts/show' => FindByUuid::class,
         '/comments/show' => FindByUuidComment::class,
+        '/likes/post/show' => FindByUuidPostLikes::class,
     ],
     'POST' => [
         '/users/create' => CreateUser::class,
         '/posts/create' => CreatePost::class,
         '/comments/create' => CreateComment::class,
+        '/likes/create' => CreatePostLike::class,
     ],
     'DELETE' => [
         '/users' => DeleteUser::class,
         '/posts' => DeletePost::class,
         '/comments' => DeleteComment::class,
+        '/likes/posts' => DeletePostLike::class,
     ],
 ];
 

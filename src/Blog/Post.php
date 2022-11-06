@@ -4,7 +4,7 @@ namespace Ackapga\Habrahabr\Blog;
 
 use Ackapga\Habrahabr\Person\User;
 
-class Post
+class Post extends \Ackapga\Habrahabr\Person\User
 {
     public function __construct(
         private UUID   $uuid,
