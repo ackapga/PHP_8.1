@@ -1,6 +1,6 @@
 <?php
 
-namespace Ackapga\Habrahabr\Blog\Repositories\PostsRepository;
+namespace Ackapga\Habrahabr\Repositories\PostsRepository;
 
 use Ackapga\Habrahabr\Blog\Post;
 use Ackapga\Habrahabr\Blog\UUID;

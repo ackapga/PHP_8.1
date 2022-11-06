@@ -1,6 +1,6 @@
 <?php
 
-namespace Ackapga\Habrahabr\Blog\Repositories\UsersRepository;
+namespace Ackapga\Habrahabr\Repositories\UsersRepository;
 
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;

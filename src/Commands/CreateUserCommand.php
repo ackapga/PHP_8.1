@@ -1,6 +1,6 @@
 <?php
 
-namespace Ackapga\Habrahabr\Blog\Commands;
+namespace Ackapga\Habrahabr\Commands;
 
 
 use Ackapga\Habrahabr\Blog\UUID;

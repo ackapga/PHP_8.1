@@ -1,6 +1,6 @@
 <?php
 
-namespace Ackapga\Habrahabr\Blog\Repositories\CommentsRepository;
+namespace Ackapga\Habrahabr\Repositories\CommentsRepository;
 
 use Ackapga\Habrahabr\Blog\Comment;
 use Ackapga\Habrahabr\Blog\Post;
