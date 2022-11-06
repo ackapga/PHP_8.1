@@ -6,6 +6,11 @@
             "Ackapga\\Habrahabr\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "GeekBrains\\Blog\\UnitTests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Ackap",
@@ -14,9 +19,9 @@
     ],
     "require": {
         "ext-pdo": "*",
-        "ext-mbstring": "*",
         "ext-http": "*",
-        "symfony/polyfill-uuid": "^1.26"
+        "symfony/polyfill-uuid": "^1.26",
+        "psr/container": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
