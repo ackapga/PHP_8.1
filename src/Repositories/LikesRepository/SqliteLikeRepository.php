@@ -9,6 +9,7 @@ use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 use Ackapga\Habrahabr\Exceptions\LikeNotFoundException;
 use Ackapga\Habrahabr\Interfaces\LikeRepositoryInterface;
 use Ackapga\Habrahabr\Person\User;
+use Exception;
 use PDO;
 
 class SqliteLikeRepository implements LikeRepositoryInterface
@@ -19,6 +20,10 @@ class SqliteLikeRepository implements LikeRepositoryInterface
     {
     }
 
+    /**
+     * @param Like $like
+     * @return void
+     */
     public function save(Like $like): void
     {
         $statement = $this->connection->prepare(
@@ -34,9 +39,11 @@ class SqliteLikeRepository implements LikeRepositoryInterface
     }
 
     /**
+     * @param UUID $uuid
+     * @return Like
      * @throws LikeNotFoundException
      */
-    public function getByPostUuid(UUID $uuid): Like
+    public function getByPostUuid(UUID $uuid): array
     {
         $statement = $this->connection->prepare(
             'SELECT * FROM likePost WHERE post_uuid = :uuid'
@@ -45,23 +52,26 @@ class SqliteLikeRepository implements LikeRepositoryInterface
             ':uuid' => (string)$uuid,
         ]);
 
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        if (false === $result) {
-            throw new LikeNotFoundException(
-                "Не найден Like: $uuid"
-            );
+        if (!$result) {
+            $message = 'Нету Лайков для этого поста: ' . $uuid;
+            throw new LikeNotFoundException($message);
         }
+
         return $result;
     }
 
+    /**
+     * @param string $postUuid
+     * @param string $userUuid
+     * @return void
+     * @throws Exception
+     */
     public function checkUserLikeForPostExists(string $postUuid, string $userUuid): void
     {
         $statement = $this->connection->prepare(
-            'SELECT *
-            FROM postsLikes
-            WHERE 
-                post_uuid = :postUuid AND user_uuid = :userUuid'
+            'SELECT * FROM likePost WHERE post_uuid = :postUuid AND user_uuid = :userUuid'
         );
 
         $statement->execute(
@@ -74,18 +84,20 @@ class SqliteLikeRepository implements LikeRepositoryInterface
         $isExisted = $statement->fetch();
 
         if ($isExisted) {
-            throw new \Exception(
-                'Пользователи, лайкнувшие этот пост, уже существуют!'
+            throw new Exception(
+                'Пользователи, лайкнул этот пост!'
             );
         }
     }
 
+    /**
+     * @param UUID $uuid
+     * @return void
+     */
     public function remove(UUID $uuid): void
     {
         $statement = $this->connection->prepare(
-            'DELETE
-                   FROM postsLikes
-                   WHERE uuid = :uuid'
+            'DELETE FROM likePost WHERE uuid = :uuid'
         );
         $statement->execute([
             ':uuid' => $uuid

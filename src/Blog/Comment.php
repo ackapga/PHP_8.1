@@ -12,14 +12,14 @@ class Comment
         private UUID  $uuid,
         private Post  $post_uuid,
         private User  $author_uuid,
-        private string $text,
+        private string $text_comment,
     )
     {
     }
 
     public function __toString(): string
     {
-        return $this->text;
+        return $this->text_comment;
     }
 
     /**
@@ -73,17 +73,17 @@ class Comment
     /**
      * @return string
      */
-    public function getText(): string
+    public function getTextComment(): string
     {
-        return $this->text;
+        return $this->text_comment;
     }
 
     /**
-     * @param string $text
+     * @param string $text_comment
      */
-    public function setText(string $text): void
+    public function setTextComment(string $text_comment): void
     {
-        $this->text = $text;
+        $this->text_comment = $text_comment;
     }
 
 }
