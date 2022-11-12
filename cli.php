@@ -1,7 +1,7 @@
 <?php
 
-use Ackapga\Habrahabr\Blog\Commands\Arguments;
-use Ackapga\Habrahabr\Blog\Commands\CreateUserCommand;
+use Ackapga\Habrahabr\Commands\Arguments;
+use Ackapga\Habrahabr\Commands\CreateUserCommand;
 use Ackapga\Habrahabr\Exceptions\AppException;
 
 $container = include __DIR__ . '/bootstrap.php';
@@ -13,6 +13,17 @@ try {
 } catch (AppException $e) {
     echo "{$e->getMessage()}\n";
 }
+
+/*
+ * $likeRepository = new SqliteLikeRepository(new PDO('sqlite:' . __DIR__ . '/database.sqlite'));
+$user = new User(UUID::random(), 'ackapga', new Name('Ackap', 'Maemgenov'));
+$post = new Post(UUID::random(), $user, '$faker->realText(rand(20, 30))', '$faker->realText(100)');
+$likeRepository->save(new Like(
+    UUID::random(),
+    $post,
+    $user
+));
+*/
 
 /*     //-----   Сохранять посты и Извлекать по UUID из БД.
 $user = new User(UUID::random(), 'ackapga', new Name('Ackap', 'Maemgenov'));

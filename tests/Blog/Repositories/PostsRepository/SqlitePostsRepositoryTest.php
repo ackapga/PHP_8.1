@@ -3,10 +3,10 @@
 namespace Blog\Repositories\PostsRepository;
 
 use Ackapga\Habrahabr\Blog\Post;
-use Ackapga\Habrahabr\Blog\Repositories\PostsRepository\SqlitePostsRepository;
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 use Ackapga\Habrahabr\Exceptions\PostNotFoundException;
+use Ackapga\Habrahabr\Repositories\PostsRepository\SqlitePostsRepository;
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;

@@ -3,10 +3,10 @@
 namespace Blog\Repositories\CommentsRepository;
 
 use Ackapga\Habrahabr\Blog\Comment;
-use Ackapga\Habrahabr\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\CommentNotFoundException;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Repositories\CommentsRepository\SqliteCommentsRepository;
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
