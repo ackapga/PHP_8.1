@@ -33,7 +33,7 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             'SELECT * FROM comments LEFT JOIN posts
                     ON comments.post_uuid = posts.uuid
                     LEFT JOIN users
-                    ON posts.author_uuid = users.uuid
+                    ON comments.author_uuid = users.uuid
                     WHERE comments.uuid = :uuid'
         );
         $statement->execute([
@@ -49,15 +49,15 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
     public function save(Comment $comment): void
     {
         $statement = $this->connection->prepare(
-            'INSERT INTO comments (uuid, post_uuid, author_uuid, text)
-                   VALUES (:uuid, :post_uuid, :author_uuid, :text)'
+            'INSERT INTO comments (uuid, post_uuid, author_uuid, text_comment)
+                   VALUES (:uuid, :post_uuid, :author_uuid, :text_comment)'
         );
 
         $statement->execute([
             ':uuid' => (string)$comment->getUuid(),
             ':post_uuid' => (string)$comment->getPostUuid()->getUuid(),
             ':author_uuid' => (string)$comment->getAuthorUuid()->getUuid(),
-            ':text' => $comment->getText(),
+            ':text_comment' => $comment->getTextComment(),
         ]);
     }
 
@@ -96,9 +96,13 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             new UUID($result['uuid']),
             $post,
             $user,
-            $result['text']);
+            $result['text_comment']);
     }
 
+    /**
+     * @param UUID $uuid
+     * @return void
+     */
     public function delete(UUID $uuid): void
     {
         $statement = $this->connection->prepare('DELETE FROM comments WHERE uuid = :uuid');

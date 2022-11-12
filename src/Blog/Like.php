@@ -16,7 +16,7 @@ class Like
 
     public function __toString(): string
     {
-        return $this->getUuid();
+        return $this->uuid;
     }
 
     /**

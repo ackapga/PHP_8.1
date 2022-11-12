@@ -16,28 +16,12 @@ class SqlitePostsRepository implements PostsRepositoryInterface
 {
     private PDO $connection;
 
+    /**
+     * @param PDO $connection
+     */
     public function __construct(PDO $connection)
     {
         $this->connection = $connection;
-    }
-
-    /**
-     * @param UUID $uuid
-     * @return Post
-     * @throws InvalidArgumentException
-     * @throws PostNotFoundException
-     */
-    public function get(UUID $uuid): Post
-    {
-        $statement = $this->connection->prepare(
-            'SELECT * FROM posts LEFT JOIN users
-                    ON posts.author_uuid = users.uuid
-                    WHERE posts.uuid = :uuid'
-        );
-        $statement->execute([
-            ':uuid' => (string)$uuid,
-        ]);
-        return $this->getPost($statement, $uuid);
     }
 
     /**
@@ -60,16 +44,34 @@ class SqlitePostsRepository implements PostsRepositoryInterface
     }
 
     /**
+     * @param UUID $uuid
+     * @return Post
+     * @throws InvalidArgumentException
+     * @throws PostNotFoundException
+     */
+    public function get(UUID $uuid): Post
+    {
+        $statement = $this->connection->prepare(
+            'SELECT * FROM posts LEFT JOIN users
+                    ON posts.author_uuid = users.uuid
+                    WHERE posts.uuid = :uuid'
+        );
+        $statement->execute([
+            ':uuid' => (string)$uuid,
+        ]);
+        return $this->getPost($statement, $uuid);
+    }
+
+    /**
      * @param PDOStatement $statement
      * @param string $uuid
      * @return Post
-     * @throws PostNotFoundException
      * @throws InvalidArgumentException
+     * @throws PostNotFoundException
      */
     private function getPost(PDOStatement $statement, string $uuid): Post
     {
         $result = $statement->fetch(PDO::FETCH_ASSOC);
-
         if (false === $result) {
             throw new PostNotFoundException(
                 "Пост по UUID: " . $uuid . " не найден!"
@@ -90,6 +92,10 @@ class SqlitePostsRepository implements PostsRepositoryInterface
             $result['text']);
     }
 
+    /**
+     * @param UUID $uuid
+     * @return void
+     */
     public function delete(UUID $uuid): void
     {
         $statement = $this->connection->prepare('DELETE FROM posts WHERE uuid = :uuid');

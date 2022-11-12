@@ -9,6 +9,10 @@ use ReflectionClass;
 
 class DIContainer implements ContainerInterface
 {
+    /**
+     * @param string $id
+     * @return bool
+     */
     public function has(string $id): bool
     {
 
@@ -20,14 +24,24 @@ class DIContainer implements ContainerInterface
         return true;
     }
 
+    /**
+     * @var array
+     */
     private array $resolvers = [];
 
+    /**
+     * @param string $type
+     * @param $resolver
+     * @return void
+     */
     public function bind(string $type, $resolver)
     {
         $this->resolvers[$type] = $resolver;
     }
 
     /**
+     * @param string $type
+     * @return object
      * @throws NotFoundException
      */
     public function get(string $type): object

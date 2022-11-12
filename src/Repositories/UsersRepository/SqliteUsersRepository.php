@@ -23,7 +23,6 @@ class SqliteUsersRepository implements UsersRepositoryInterface
     /**
      * @param User $user
      * @return void
-     * Метод сохранения пользователя в БД.
      */
     public function save(User $user): void
     {
@@ -45,7 +44,6 @@ class SqliteUsersRepository implements UsersRepositoryInterface
      * @return User
      * @throws InvalidArgumentException
      * @throws UserNotFoundException
-     * Извлечь пользователя по UUID из БД.
      */
     public function get(UUID $uuid): User
     {
@@ -63,7 +61,6 @@ class SqliteUsersRepository implements UsersRepositoryInterface
      * @return User
      * @throws InvalidArgumentException
      * @throws UserNotFoundException
-     * Извлечь пользователя по Username из БД.
      */
     public function getByUsername(string $username): User
     {
@@ -82,7 +79,6 @@ class SqliteUsersRepository implements UsersRepositoryInterface
      * @return User
      * @throws InvalidArgumentException
      * @throws UserNotFoundException
-     * Закрытый метод класса для Save | Get
      */
     private function getUser(PDOStatement $statement, string $username): User
     {
@@ -100,6 +96,10 @@ class SqliteUsersRepository implements UsersRepositoryInterface
         );
     }
 
+    /**
+     * @param UUID $uuid
+     * @return void
+     */
     public function delete(UUID $uuid): void
     {
         $statement = $this->connection->prepare('DELETE FROM users WHERE uuid = :uuid');

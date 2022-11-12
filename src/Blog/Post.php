@@ -4,7 +4,7 @@ namespace Ackapga\Habrahabr\Blog;
 
 use Ackapga\Habrahabr\Person\User;
 
-class Post extends \Ackapga\Habrahabr\Person\User
+class Post
 {
     public function __construct(
         private UUID   $uuid,
@@ -17,7 +17,7 @@ class Post extends \Ackapga\Habrahabr\Person\User
 
     public function __toString(): string
     {
-        return $this->title . PHP_EOL . $this->text;
+        return $this->uuid;
     }
 
     /**
