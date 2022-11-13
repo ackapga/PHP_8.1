@@ -33,8 +33,8 @@ class SqliteLikeRepository implements LikeRepositoryInterface
 
         $statement->execute([
             ':uuid' => (string)$like,
-            ':post_uuid' => $like->getPostUuid()->getUuid(),
-            ':user_uuid' => $like->getUserUuid()->getUuid(),
+            ':user_uuid' => (string)$like->getUserUuid()->getUuidUser(),
+            ':post_uuid' => (string)$like->getPostUuid()->getUuidPost(),
         ]);
     }
 

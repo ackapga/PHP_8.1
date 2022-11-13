@@ -35,7 +35,7 @@ class FindByUuidUser implements ActionInterface
         }
 
         return new SuccessfulResponse([
-            'UUID' => $uuid,
+            'UUID' => (string)$user->getUuidUser(),
             'username' => $user->getUsername(),
             'name' => $user->getName()->getFirstName() . ' ' . $user->getName()->getLastName(),
         ]);

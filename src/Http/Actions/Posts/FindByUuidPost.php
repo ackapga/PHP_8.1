@@ -39,7 +39,7 @@ class FindByUuidPost implements ActionInterface
         }
 
         return new SuccessfulResponse([
-            'author_uuid' => (string)$post->getAuthorUuid()->getUuid(),
+            'author_uuid' => (string)$post->getAuthorUuid()->getUuidUser(),
             'title' => $post->getTitle(),
             'text' => $post->getText()
         ]);

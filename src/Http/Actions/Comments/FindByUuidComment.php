@@ -38,8 +38,8 @@ class FindByUuidComment implements ActionInterface
         }
 
         return new SuccessfulResponse([
-            'post_uuid' => (string)$comment->getPostUuid()->getUuid(),
-            'author_uuid' => (string)$comment->getAuthorUuid()->getUuid(),
+            'post_uuid' => (string)$comment->getPostUuid()->getUuidPost(),
+            'author_uuid' => (string)$comment->getAuthorUuid()->getUuidUser(),
             'text' => $comment->getTextComment()
         ]);
     }

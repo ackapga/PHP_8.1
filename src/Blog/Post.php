@@ -23,7 +23,7 @@ class Post
     /**
      * @return UUID
      */
-    public function getUuid(): UUID
+    public function getUuidPost(): UUID
     {
         return $this->uuid;
     }
@@ -31,7 +31,7 @@ class Post
     /**
      * @param UUID $uuid
      */
-    public function setUuid(UUID $uuid): void
+    public function setUuidPost(UUID $uuid): void
     {
         $this->uuid = $uuid;
     }

@@ -36,8 +36,8 @@ class SqlitePostsRepository implements PostsRepositoryInterface
         );
 
         $statement->execute([
-            ':uuid' => (string)$post->getUuid(),
-            ':author_uuid' => (string)$post->getAuthorUuid()->getUuid(),
+            ':uuid' => (string)$post->getUuidPost(),
+            ':author_uuid' => (string)$post->getAuthorUuid()->getUuidUser(),
             ':title' => $post->getTitle(),
             ':text' => $post->getText(),
         ]);

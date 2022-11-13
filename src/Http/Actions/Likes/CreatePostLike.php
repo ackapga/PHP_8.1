@@ -6,6 +6,7 @@ use Ackapga\Habrahabr\Blog\Like;
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\AppException;
 use Ackapga\Habrahabr\Exceptions\HttpException;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 use Ackapga\Habrahabr\Http\Actions\ActionInterface;
 use Ackapga\Habrahabr\Interfaces\LikeRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
@@ -29,33 +30,28 @@ class CreatePostLike implements ActionInterface
     public function handle(Request $request): Response
     {
         try {
-            $userUuid = $request->jsonBodyField('user_uuid');
             $postUuid = $request->JsonBodyField('post_uuid');
+            $userUuid = $request->jsonBodyField('user_uuid');
         } catch (HttpException $e) {
             return new ErrorResponse($e->getMessage());
         }
 
-        try {
-            $this->likesRepository->checkUserLikeForPostExists($postUuid, $userUuid);
-        } catch (\Exception $e) {
-            return new ErrorResponse($e->getMessage());
-        }
+
 
         try {
             $newLikeUuid = UUID::random();
-            $user = $this->usersRepository->get(new UUID($userUuid));
             $post = $this->postsRepository->get(new UUID($postUuid));
+            $user = $this->usersRepository->get(new UUID($userUuid));
         } catch (AppException $e) {
             return new ErrorResponse($e->getMessage());
+        } catch (InvalidArgumentException $e) {
         }
 
-        $like = new Like(
+        $this->likesRepository->save(new Like(
             $newLikeUuid,
             $post,
-            $user,
-        );
-
-        $this->likesRepository->save($like);
+            $user
+        ));
 
         return new SuccessFulResponse(
             ['uuid' => (string)$newLikeUuid]

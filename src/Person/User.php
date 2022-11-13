@@ -17,7 +17,7 @@ class User extends \Ackapga\Habrahabr\Blog\Post
     /**
      * @return UUID
      */
-    public function getUuid(): UUID
+    public function getUuidUser(): UUID
     {
         return $this->uuid;
     }
@@ -41,7 +41,7 @@ class User extends \Ackapga\Habrahabr\Blog\Post
     /**
      * @param UUID $uuid
      */
-    public function setUuid(UUID $uuid): void
+    public function setUuidUser(UUID $uuid): void
     {
         $this->uuid = $uuid;
     }

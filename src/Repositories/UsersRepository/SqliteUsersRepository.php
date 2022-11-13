@@ -32,7 +32,7 @@ class SqliteUsersRepository implements UsersRepositoryInterface
         );
 
         $statement->execute([
-            ':uuid' => (string)$user->getUuid(),
+            ':uuid' => (string)$user->getUuidUser(),
             ':username' => $user->getUsername(),
             ':first_name' => $user->getName()->getFirstName(),
             ':last_name' => $user->getName()->getLastName(),
