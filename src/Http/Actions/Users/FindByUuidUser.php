@@ -1,30 +1,27 @@
 <?php
 
-namespace Ackapga\Habrahabr\Http\Actions\Posts;
+namespace Ackapga\Habrahabr\Http\Actions\Users;
 
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\HttpException;
-use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
-use Ackapga\Habrahabr\Exceptions\PostNotFoundException;
+use Ackapga\Habrahabr\Exceptions\UserNotFoundException;
 use Ackapga\Habrahabr\Http\Actions\ActionInterface;
+use Ackapga\Habrahabr\Http\ErrorResponse;
 use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Http\Response;
-use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
-use Ackapga\Habrahabr\Http\ErrorResponse;
 use Ackapga\Habrahabr\Http\SuccessfulResponse;
 use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
 
-class FindByUuid implements ActionInterface
+class FindByUuidUser implements ActionInterface
 {
     public function __construct(
-        private PostsRepositoryInterface $postsRepository,
+        private UsersRepositoryInterface $usersRepository
     )
     {
     }
 
     public function handle(Request $request): Response
     {
-
         try {
             $uuid = $request->query('uuid');
         } catch (HttpException $e) {
@@ -32,16 +29,15 @@ class FindByUuid implements ActionInterface
         }
 
         try {
-            $post = $this->postsRepository->get(new UUID($uuid));
-        } catch (PostNotFoundException $e) {
+            $user = $this->usersRepository->get(new UUID($uuid));
+        } catch (UserNotFoundException $e) {
             return new ErrorResponse($e->getMessage());
-        } catch (InvalidArgumentException $e) {
         }
 
         return new SuccessfulResponse([
-            'author_uuid' => (string)$post->getAuthorUuid()->getUuid(),
-            'title' => $post->getTitle(),
-            'text' => $post->getText()
+            'UUID' => $uuid,
+            'username' => $user->getUsername(),
+            'name' => $user->getName()->getFirstName() . ' ' . $user->getName()->getLastName(),
         ]);
     }
 }

@@ -51,8 +51,8 @@ class CreatePostLike implements ActionInterface
 
         $like = new Like(
             $newLikeUuid,
-            $user,
             $post,
+            $user,
         );
 
         $this->likesRepository->save($like);

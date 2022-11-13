@@ -28,16 +28,13 @@ class DeleteComment implements ActionInterface
     {
         try {
             $commentUuid= $request->query('uuid');
-            $this->commentsRepository->get(new UUID($commentUuid));
-
-        } catch (CommentNotFoundException|HttpException|InvalidArgumentException $exception) {
+            $this->commentsRepository->delete(new UUID($commentUuid));
+        } catch (HttpException|InvalidArgumentException $exception) {
             return new ErrorResponse($exception->getMessage());
         }
 
-        $this->commentsRepository->delete(new UUID($commentUuid));
-
-        return new SuccessfulResponse([
-            'uuid' => $commentUuid
-        ]);
+        return new SuccessfulResponse(
+            ['action' => 'comment ' . $commentUuid . ' deleted successfully']
+        );
     }
 }

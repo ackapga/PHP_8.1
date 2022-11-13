@@ -32,14 +32,20 @@ class CreateComment implements ActionInterface
      */
     public function handle(Request $request): Response
     {
+        try {
+            $authorUuid = new UUID($request->jsonBodyField('author_uuid'));
+            $postUuid = new UUID($request->jsonBodyField('post_uuid'));
+            $text = $request->JsonBodyField('text_comment');
+        } catch (HttpException|InvalidArgumentException $e) {
+            return new ErrorResponse($e->getMessage());
+        }
 
-        $postUuid = new UUID($request->jsonBodyField('post_uuid'));
-        $post = $this->postsRepository->get($postUuid);
-
-
-        $authorUuid = new UUID($request->jsonBodyField('author_uuid'));
-        $author = $this->usersRepository->get($authorUuid);
-
+        try {
+            $author = $this->usersRepository->get($authorUuid);
+            $post = $this->postsRepository->get($postUuid);
+        } catch (UserNotFoundException $e) {
+            return new ErrorResponse($e->getMessage());
+        }
 
         $newCommentUuid = UUID::random();
 
@@ -48,7 +54,7 @@ class CreateComment implements ActionInterface
                 $newCommentUuid,
                 $post,
                 $author,
-                $request['text']
+                $text
             );
         } catch (HttpException $e) {
             return new ErrorResponse($e->getMessage());
