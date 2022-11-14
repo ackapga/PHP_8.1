@@ -2,11 +2,14 @@
 
 namespace Ackapga\Habrahabr\Http\Actions\Likes;
 
-use Ackapga\Habrahabr\Blog\Like;
+use Ackapga\Habrahabr\Blog\PostLike;
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\AppException;
 use Ackapga\Habrahabr\Exceptions\HttpException;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Exceptions\LikeAlreadyExists;
 use Ackapga\Habrahabr\Http\Actions\ActionInterface;
+use Ackapga\Habrahabr\Http\Auth\IdentificationInterface;
 use Ackapga\Habrahabr\Interfaces\LikeRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
 use Ackapga\Habrahabr\Http\Request;
@@ -21,41 +24,39 @@ class CreatePostLike implements ActionInterface
     public function __construct(
         private LikeRepositoryInterface  $likesRepository,
         private PostsRepositoryInterface $postsRepository,
-        private UsersRepositoryInterface $usersRepository,
+        private IdentificationInterface  $identification,
     )
     {
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function handle(Request $request): Response
     {
         try {
-            $userUuid = $request->jsonBodyField('user_uuid');
-            $postUuid = $request->JsonBodyField('post_uuid');
-        } catch (HttpException $e) {
+            $user = $this->identification->user($request);
+            $postUuid = new UUID($request->JsonBodyField('post_uuid'));
+            $post = $this->postsRepository->get($postUuid);
+        } catch (HttpException|InvalidArgumentException $e) {
             return new ErrorResponse($e->getMessage());
         }
 
         try {
-            $this->likesRepository->checkUserLikeForPostExists($postUuid, $userUuid);
-        } catch (\Exception $e) {
+            $this->likesRepository->checkUserLikeForPostExists($postUuid, $user->getUuidUser());
+        } catch (LikeAlreadyExists|\Exception $e) {
             return new ErrorResponse($e->getMessage());
         }
 
-        try {
-            $newLikeUuid = UUID::random();
-            $user = $this->usersRepository->get(new UUID($userUuid));
-            $post = $this->postsRepository->get(new UUID($postUuid));
-        } catch (AppException $e) {
-            return new ErrorResponse($e->getMessage());
-        }
+        $newLikeUuid = UUID::random();
 
-        $like = new Like(
-            $newLikeUuid,
-            $user,
-            $post,
+        $this->likesRepository->save(
+            new PostLike(
+                $newLikeUuid,
+                $post,
+                $user
+            )
         );
-
-        $this->likesRepository->save($like);
 
         return new SuccessFulResponse(
             ['uuid' => (string)$newLikeUuid]

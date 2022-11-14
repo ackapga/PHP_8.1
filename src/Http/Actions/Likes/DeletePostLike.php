@@ -21,23 +21,19 @@ class DeletePostLike implements ActionInterface
     {
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function handle(Request $request): Response
     {
         try {
-            $postLikeUuid= $request->query('uuid');
-            $this->likeRepository->getByPostUuid(new UUID($postLikeUuid));
+            $postLikeUuid = new UUID($request->query('uuid'));
 
-        } catch (CommentNotFoundException|HttpException|InvalidArgumentException $exception) {
+        } catch (HttpException|InvalidArgumentException $exception) {
             return new ErrorResponse($exception->getMessage());
         }
 
-        $this->likeRepository->remove(new UUID($postLikeUuid));
+        $this->likeRepository->remove($postLikeUuid);
 
-        return new SuccessfulResponse([
-            'uuid' => $postLikeUuid
-        ]);
+        return new SuccessfulResponse(
+            ['action' => 'Like: ' . $postLikeUuid . ' успешно удален!']
+        );
     }
 }

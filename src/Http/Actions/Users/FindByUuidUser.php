@@ -1,29 +1,28 @@
 <?php
 
-namespace Ackapga\Habrahabr\Http\Actions\Comments;
+namespace Ackapga\Habrahabr\Http\Actions\Users;
 
 use Ackapga\Habrahabr\Blog\UUID;
-use Ackapga\Habrahabr\Exceptions\CommentNotFoundException;
 use Ackapga\Habrahabr\Exceptions\HttpException;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
+use Ackapga\Habrahabr\Exceptions\UserNotFoundException;
 use Ackapga\Habrahabr\Http\Actions\ActionInterface;
-use Ackapga\Habrahabr\Interfaces\CommentsRepositoryInterface;
+use Ackapga\Habrahabr\Http\ErrorResponse;
 use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Http\Response;
-use Ackapga\Habrahabr\Http\ErrorResponse;
 use Ackapga\Habrahabr\Http\SuccessfulResponse;
+use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
 
-class FindByUuidComment implements ActionInterface
+class FindByUuidUser implements ActionInterface
 {
     public function __construct(
-        private CommentsRepositoryInterface $commentsRepository,
+        private UsersRepositoryInterface $usersRepository
     )
     {
     }
 
     public function handle(Request $request): Response
     {
-
         try {
             $uuid = $request->query('uuid');
         } catch (HttpException $e) {
@@ -31,16 +30,15 @@ class FindByUuidComment implements ActionInterface
         }
 
         try {
-            $comment = $this->commentsRepository->get(new UUID($uuid));
-        } catch (CommentNotFoundException $e) {
-            return new ErrorResponse($e->getMessage());
+            $user = $this->usersRepository->get(new UUID($uuid));
         } catch (InvalidArgumentException $e) {
+            return new ErrorResponse($e->getMessage());
         }
 
         return new SuccessfulResponse([
-            'post_uuid' => (string)$comment->getPostUuid()->getUuidPost(),
-            'author_uuid' => (string)$comment->getAuthorUuid()->getUuidUser(),
-            'text' => $comment->getTextComment()
+            'UUID' => (string)$user->getUuidUser(),
+            'username' => $user->getUsername(),
+            'name' => $user->getName()->getFirstName() . ' ' . $user->getName()->getLastName(),
         ]);
     }
 }

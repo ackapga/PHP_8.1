@@ -2,7 +2,7 @@
 
 namespace Ackapga\Habrahabr\Repositories\LikesRepository;
 
-use Ackapga\Habrahabr\Blog\Like;
+use Ackapga\Habrahabr\Blog\PostLike;
 use Ackapga\Habrahabr\Blog\Post;
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
@@ -21,10 +21,10 @@ class SqliteLikeRepository implements LikeRepositoryInterface
     }
 
     /**
-     * @param Like $like
+     * @param PostLike $like
      * @return void
      */
-    public function save(Like $like): void
+    public function save(PostLike $like): void
     {
         $statement = $this->connection->prepare(
             'INSERT INTO likePost (uuid, post_uuid, user_uuid)
@@ -32,15 +32,15 @@ class SqliteLikeRepository implements LikeRepositoryInterface
         );
 
         $statement->execute([
-            ':uuid' => $like,
-            ':post_uuid' => $like->getPostUuid()->getUuid(),
-            ':user_uuid' => $like->getUserUuid()->getUuid(),
+            ':uuid' => (string)$like,
+            ':user_uuid' => (string)$like->getUserUuid()->getUuidUser(),
+            ':post_uuid' => (string)$like->getPostUuid()->getUuidPost(),
         ]);
     }
 
     /**
      * @param UUID $uuid
-     * @return Like
+     * @return PostLike
      * @throws LikeNotFoundException
      */
     public function getByPostUuid(UUID $uuid): array
@@ -52,7 +52,7 @@ class SqliteLikeRepository implements LikeRepositoryInterface
             ':uuid' => (string)$uuid,
         ]);
 
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll();
 
         if (!$result) {
             $message = 'Нету Лайков для этого поста: ' . $uuid;

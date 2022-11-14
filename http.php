@@ -9,12 +9,14 @@ use Ackapga\Habrahabr\Http\Actions\Likes\DeletePostLike;
 use Ackapga\Habrahabr\Http\Actions\Likes\FindByUuidPostLikes;
 use Ackapga\Habrahabr\Http\Actions\Posts\CreatePost;
 use Ackapga\Habrahabr\Http\Actions\Posts\DeletePost;
-use Ackapga\Habrahabr\Http\Actions\Posts\FindByUuid;
+use Ackapga\Habrahabr\Http\Actions\Posts\FindByUuidPost;
 use Ackapga\Habrahabr\Http\Actions\Users\CreateUser;
 use Ackapga\Habrahabr\Http\Actions\Users\DeleteUser;
+use Ackapga\Habrahabr\Http\Actions\Users\FindByUuidUser;
 use Ackapga\Habrahabr\Http\ErrorResponse;
 use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Http\Actions\Users\FindByUsername;
+use Ackapga\Habrahabr\Exceptions\HttpException;
 
 $container = require __DIR__ . '/bootstrap.php';
 
@@ -40,8 +42,9 @@ try {
 
 $routes = [
     'GET' => [
+        '/users/show.uuid' => FindByUuidUser::class,
         '/users/show' => FindByUsername::class,
-        '/posts/show' => FindByUuid::class,
+        '/posts/show' => FindByUuidPost::class,
         '/comments/show' => FindByUuidComment::class,
         '/likes/post/show' => FindByUuidPostLikes::class,
     ],
@@ -61,14 +64,13 @@ $routes = [
 
 
 if (!array_key_exists($method, $routes)) {
-    (new ErrorResponse("Route not found: $method $path"))->send();
+    (new ErrorResponse("Метод не найден: $method $path"))->send();
     return;
 }
 if (!array_key_exists($path, $routes[$method])) {
-    (new ErrorResponse("Route not found: $method $path"))->send();
+    (new ErrorResponse("Роут не найден: $method $path"))->send();
     return;
 }
-
 
 $actionClassName = $routes[$method][$path];
 $action = $container->get($actionClassName);
@@ -78,4 +80,5 @@ try {
 } catch (AppException $e) {
     (new ErrorResponse($e->getMessage()))->send();
 }
+
 $response->send();

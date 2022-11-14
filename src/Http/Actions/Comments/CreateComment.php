@@ -6,20 +6,19 @@ use Ackapga\Habrahabr\Blog\Comment;
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\HttpException;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
-use Ackapga\Habrahabr\Exceptions\UserNotFoundException;
 use Ackapga\Habrahabr\Http\Actions\ActionInterface;
+use Ackapga\Habrahabr\Http\Auth\IdentificationInterface;
 use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Http\Response;
 use Ackapga\Habrahabr\Http\ErrorResponse;
 use Ackapga\Habrahabr\Http\SuccessfulResponse;
 use Ackapga\Habrahabr\Interfaces\CommentsRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
-use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
 
 class CreateComment implements ActionInterface
 {
     public function __construct(
-        private UsersRepositoryInterface    $usersRepository,
+        private IdentificationInterface     $identification,
         private PostsRepositoryInterface    $postsRepository,
         private CommentsRepositoryInterface $commentsRepository
     )
@@ -27,19 +26,18 @@ class CreateComment implements ActionInterface
     }
 
     /**
-     * @throws HttpException
      * @throws InvalidArgumentException
      */
     public function handle(Request $request): Response
     {
+        try {
+            $postUuid = new UUID($request->jsonBodyField('post_uuid'));
+            $post = $this->postsRepository->get($postUuid);
+        } catch (HttpException|InvalidArgumentException $e) {
+            return new ErrorResponse($e->getMessage());
+        }
 
-        $postUuid = new UUID($request->jsonBodyField('post_uuid'));
-        $post = $this->postsRepository->get($postUuid);
-
-
-        $authorUuid = new UUID($request->jsonBodyField('author_uuid'));
-        $author = $this->usersRepository->get($authorUuid);
-
+        $author = $this->identification->user($request);
 
         $newCommentUuid = UUID::random();
 
@@ -48,15 +46,16 @@ class CreateComment implements ActionInterface
                 $newCommentUuid,
                 $post,
                 $author,
-                $request['text']
+                $request->JsonBodyField('text_comment')
             );
         } catch (HttpException $e) {
             return new ErrorResponse($e->getMessage());
         }
 
         $this->commentsRepository->save($comment);
+
         return new SuccessfulResponse([
-            'uuid' => (string)$newCommentUuid,
+            'Создан Коммент по UUID: ' => (string)$newCommentUuid,
         ]);
     }
 

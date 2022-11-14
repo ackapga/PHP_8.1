@@ -40,14 +40,14 @@ class DIContainer implements ContainerInterface
     }
 
     /**
-     * @param string $type
+     * @param string $id
      * @return object
      * @throws NotFoundException
      */
-    public function get(string $type): object
+    public function get(string $id): object
     {
-        if (array_key_exists($type, $this->resolvers)) {
-            $typeToCreate = $this->resolvers[$type];
+        if (array_key_exists($id, $this->resolvers)) {
+            $typeToCreate = $this->resolvers[$id];
 
             if (is_object($typeToCreate)) {
                 return $typeToCreate;
@@ -55,16 +55,16 @@ class DIContainer implements ContainerInterface
             return $this->get($typeToCreate);
         }
 
-        if (!class_exists($type)) {
-            throw new NotFoundException("Не удается разрешить тип: $type");
+        if (!class_exists($id)) {
+            throw new NotFoundException("Не удается разрешить тип: $id");
         }
 
-        $reflectionClass = new ReflectionClass($type);
+        $reflectionClass = new ReflectionClass($id);
 
         $constructor = $reflectionClass->getConstructor();
 
         if (null === $constructor) {
-            return new $type();
+            return new $id();
         }
 
         $parameters = [];
@@ -76,7 +76,7 @@ class DIContainer implements ContainerInterface
             $parameters[] = $this->get($parameterType);
         }
 
-        return new $type(...$parameters);
+        return new $id(...$parameters);
 
     }
 

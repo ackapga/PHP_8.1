@@ -14,7 +14,7 @@ use Ackapga\Habrahabr\Http\ErrorResponse;
 use Ackapga\Habrahabr\Http\SuccessfulResponse;
 use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
 
-class FindByUuid implements ActionInterface
+class FindByUuidPost implements ActionInterface
 {
     public function __construct(
         private PostsRepositoryInterface $postsRepository,
@@ -39,7 +39,7 @@ class FindByUuid implements ActionInterface
         }
 
         return new SuccessfulResponse([
-            'author_uuid' => (string)$post->getAuthorUuid()->getUuid(),
+            'author_uuid' => (string)$post->getAuthorUuid()->getUuidUser(),
             'title' => $post->getTitle(),
             'text' => $post->getText()
         ]);

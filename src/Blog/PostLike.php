@@ -4,7 +4,7 @@ namespace Ackapga\Habrahabr\Blog;
 
 use Ackapga\Habrahabr\Person\User;
 
-class Like
+class PostLike
 {
     public function __construct(
         private UUID $uuid,

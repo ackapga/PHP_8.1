@@ -17,10 +17,11 @@ class FindByUuidPostLikes implements ActionInterface
 {
 
     public function __construct(
-        private LikeRepositoryInterface $repository
+        private LikeRepositoryInterface $likeRepository
     )
     {
     }
+
     public function handle(Request $request): Response
     {
         try {
@@ -30,7 +31,7 @@ class FindByUuidPostLikes implements ActionInterface
         }
 
         try {
-            $likes = $this->repository->getByPostUuid($uuid);
+            $likes = $this->likeRepository->getByPostUuid($uuid);
         } catch (LikeNotFoundException $e) {
             return new ErrorResponse($e->getMessage());
         }
@@ -45,7 +46,7 @@ class FindByUuidPostLikes implements ActionInterface
         }
 
         return new SuccessFulResponse(
-            ['uuid' => $outputMas]
+            ['post_uuid' => $outputMas]
         );
     }
 }
