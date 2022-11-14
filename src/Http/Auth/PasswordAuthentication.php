@@ -28,6 +28,7 @@ class PasswordAuthentication implements AuthenticationInterface
         } catch (HttpException $e) {
             throw new AuthException($e->getMessage());
         }
+
         try {
             $user = $this->usersRepository->getByUsername($username);
         } catch (UserNotFoundException $e) {
@@ -39,7 +40,8 @@ class PasswordAuthentication implements AuthenticationInterface
         } catch (HttpException $e) {
             throw new AuthException($e->getMessage());
         }
-        if ($password !== $user->getPassword()) {
+
+        if (!$user->checkPassword($password)) {
             throw new AuthException('Неправильный пароль!');
         }
 
