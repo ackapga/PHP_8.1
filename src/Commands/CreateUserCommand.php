@@ -30,14 +30,20 @@ final class CreateUserCommand
     public function handle(Arguments $arguments): void
     {
         $username = $arguments->get('username');
+
+        $password = $arguments->get('password');
+
         if ($this->userExists($username)) {
             throw new CommandException("Пользователь $username уже существует в БД!");
         }
-        $this->usersRepository->save(new User(
-            UUID::random(),
-            $username,
-            new Name($arguments->get('first_name'), $arguments->get('last_name'))
-        ));
+
+        $this->usersRepository->save(
+            new User(
+                UUID::random(),
+                $username,
+                $password,
+                new Name($arguments->get('first_name'), $arguments->get('last_name'))
+            ));
     }
 
     /**

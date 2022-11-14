@@ -4,11 +4,12 @@ namespace Ackapga\Habrahabr\Person;
 
 use Ackapga\Habrahabr\Blog\UUID;
 
-class User extends \Ackapga\Habrahabr\Blog\Post
+class User
 {
     public function __construct(
         private UUID $uuid,
         private string $username,
+        private string $password,
         private Name $name
     )
     {
@@ -28,6 +29,14 @@ class User extends \Ackapga\Habrahabr\Blog\Post
     public function getUsername(): string
     {
         return $this->username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
     }
 
     /**
@@ -52,6 +61,14 @@ class User extends \Ackapga\Habrahabr\Blog\Post
     public function setUsername(string $username): void
     {
         $this->username = $username;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 
     /**
