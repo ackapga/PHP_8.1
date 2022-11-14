@@ -40,7 +40,7 @@ class BearerTokenAuthentication implements TokenAuthenticationInterface
         }
 
         if (!str_starts_with($header, self::HEADER_PREFIX)) {
-            throw new AuthException("Malformed token: [$header]");
+            throw new AuthException("Неверный токен: [$header]");
         }
 
         $token = mb_substr($header, strlen(self::HEADER_PREFIX));
@@ -48,7 +48,7 @@ class BearerTokenAuthentication implements TokenAuthenticationInterface
         try {
             $authToken = $this->authTokensRepository->get($token);
         } catch (AuthTokenNotFoundException) {
-            throw new AuthException("Bad token: [$token]");
+            throw new AuthException("Плохой токен: [$token]");
         }
 
         if ($authToken->expiresOn() <= new DateTimeImmutable()) {

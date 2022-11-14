@@ -81,6 +81,7 @@ class SqlitePostsRepository implements PostsRepositoryInterface
         $user = new User(
             new UUID($result['author_uuid']),
             $result['username'],
+            $result['password'],
             new Name($result['first_name'], $result['last_name']
             )
         );

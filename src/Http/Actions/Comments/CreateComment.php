@@ -7,7 +7,7 @@ use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\HttpException;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 use Ackapga\Habrahabr\Http\Actions\ActionInterface;
-use Ackapga\Habrahabr\Http\Auth\AuthenticationInterface;
+use Ackapga\Habrahabr\Http\Auth\TokenAuthenticationInterface;
 use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Http\Response;
 use Ackapga\Habrahabr\Http\ErrorResponse;
@@ -18,7 +18,7 @@ use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
 class CreateComment implements ActionInterface
 {
     public function __construct(
-        private AuthenticationInterface     $identification,
+        private TokenAuthenticationInterface $authentication,
         private PostsRepositoryInterface    $postsRepository,
         private CommentsRepositoryInterface $commentsRepository
     )
@@ -37,7 +37,7 @@ class CreateComment implements ActionInterface
             return new ErrorResponse($e->getMessage());
         }
 
-        $author = $this->identification->user($request);
+        $author = $this->authentication->user($request);
 
         $newCommentUuid = UUID::random();
 
