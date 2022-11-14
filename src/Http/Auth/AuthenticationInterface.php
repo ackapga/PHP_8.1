@@ -5,7 +5,7 @@ namespace Ackapga\Habrahabr\Http\Auth;
 use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Person\User;
 
-interface IdentificationInterface
+interface AuthenticationInterface
 {
     /**
      * Контракт описывает единственный метод, получающий пользователя из запроса.

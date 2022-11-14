@@ -8,7 +8,7 @@ use Ackapga\Habrahabr\Exceptions\AuthException;
 use Ackapga\Habrahabr\Exceptions\HttpException;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 use Ackapga\Habrahabr\Http\Actions\ActionInterface;
-use Ackapga\Habrahabr\Http\Auth\IdentificationInterface;
+use Ackapga\Habrahabr\Http\Auth\AuthenticationInterface;
 use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
 use Ackapga\Habrahabr\Http\Response;
 use Ackapga\Habrahabr\Http\Request;
@@ -18,7 +18,7 @@ use Ackapga\Habrahabr\Http\SuccessfulResponse;
 class CreatePost implements ActionInterface
 {
     public function __construct(
-        private IdentificationInterface  $identification,
+        private AuthenticationInterface  $identification,
         private PostsRepositoryInterface $postsRepository,
     )
     {

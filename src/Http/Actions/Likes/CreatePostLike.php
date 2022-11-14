@@ -9,7 +9,7 @@ use Ackapga\Habrahabr\Exceptions\HttpException;
 use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 use Ackapga\Habrahabr\Exceptions\LikeAlreadyExists;
 use Ackapga\Habrahabr\Http\Actions\ActionInterface;
-use Ackapga\Habrahabr\Http\Auth\IdentificationInterface;
+use Ackapga\Habrahabr\Http\Auth\AuthenticationInterface;
 use Ackapga\Habrahabr\Interfaces\LikeRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
 use Ackapga\Habrahabr\Http\Request;
@@ -24,7 +24,7 @@ class CreatePostLike implements ActionInterface
     public function __construct(
         private LikeRepositoryInterface  $likesRepository,
         private PostsRepositoryInterface $postsRepository,
-        private IdentificationInterface  $identification,
+        private AuthenticationInterface  $identification,
     )
     {
     }

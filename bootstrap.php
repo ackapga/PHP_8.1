@@ -1,9 +1,8 @@
 <?php
 
 use Ackapga\Habrahabr\Container\DIContainer;
-use Ackapga\Habrahabr\Http\Auth\IdentificationInterface;
-use Ackapga\Habrahabr\Http\Auth\JsonBodyUsernameIdentification;
-use Ackapga\Habrahabr\Http\Auth\JsonBodyUuidIdentification;
+use Ackapga\Habrahabr\Http\Auth\AuthenticationInterface;
+use Ackapga\Habrahabr\Http\Auth\PasswordAuthentication;
 use Ackapga\Habrahabr\Interfaces\CommentsRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\LikeRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
@@ -46,8 +45,8 @@ $container->bind(
 );
 
 $container->bind(
-    IdentificationInterface::class,
-    JsonBodyUsernameIdentification::class
+    AuthenticationInterface::class,
+    PasswordAuthentication::class
 );
 
 return $container;
