@@ -9,7 +9,7 @@ use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
 use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Person\User;
 
-class PasswordAuthentication implements AuthenticationInterface
+class PasswordAuthentication implements PasswordAuthenticationInterface
 {
     public function __construct(
         private UsersRepositoryInterface $usersRepository

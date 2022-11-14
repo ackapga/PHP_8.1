@@ -1,12 +1,16 @@
 <?php
 
 use Ackapga\Habrahabr\Container\DIContainer;
-use Ackapga\Habrahabr\Http\Auth\AuthenticationInterface;
+use Ackapga\Habrahabr\Http\Actions\Auth\BearerTokenAuthentication;
 use Ackapga\Habrahabr\Http\Auth\PasswordAuthentication;
+use Ackapga\Habrahabr\Http\Auth\PasswordAuthenticationInterface;
+use Ackapga\Habrahabr\Http\Auth\TokenAuthenticationInterface;
+use Ackapga\Habrahabr\Interfaces\AuthTokensRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\CommentsRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\LikeRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\PostsRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
+use Ackapga\Habrahabr\Repositories\AuthTokensRepository\SqliteAuthTokensRepository;
 use Ackapga\Habrahabr\Repositories\CommentsRepository\SqliteCommentsRepository;
 use Ackapga\Habrahabr\Repositories\LikesRepository\SqliteLikeRepository;
 use Ackapga\Habrahabr\Repositories\PostsRepository\SqlitePostsRepository;
@@ -45,8 +49,16 @@ $container->bind(
 );
 
 $container->bind(
-    AuthenticationInterface::class,
+    PasswordAuthenticationInterface::class,
     PasswordAuthentication::class
+);
+$container->bind(
+    AuthTokensRepositoryInterface::class,
+    SqliteAuthTokensRepository::class
+);
+$container->bind(
+    TokenAuthenticationInterface::class,
+    BearerTokenAuthentication::class
 );
 
 return $container;
