@@ -37,7 +37,7 @@ class DeletePost implements ActionInterface
         $this->postsRepository->delete(new UUID($postUuid));
 
         return new SuccessfulResponse([
-            'action' => 'post ' . $postUuid . ' deleted successfully'
+            'action' => 'Пост: ' . $postUuid . ' успешно удален!'
         ]);
     }
 }

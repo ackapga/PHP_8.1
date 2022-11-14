@@ -4,6 +4,7 @@ namespace Ackapga\Habrahabr\Http\Actions\Users;
 
 use Ackapga\Habrahabr\Blog\UUID;
 use Ackapga\Habrahabr\Exceptions\HttpException;
+use Ackapga\Habrahabr\Exceptions\InvalidArgumentException;
 use Ackapga\Habrahabr\Exceptions\UserNotFoundException;
 use Ackapga\Habrahabr\Http\Actions\ActionInterface;
 use Ackapga\Habrahabr\Http\ErrorResponse;
@@ -30,7 +31,7 @@ class FindByUuidUser implements ActionInterface
 
         try {
             $user = $this->usersRepository->get(new UUID($uuid));
-        } catch (UserNotFoundException $e) {
+        } catch (InvalidArgumentException $e) {
             return new ErrorResponse($e->getMessage());
         }
 

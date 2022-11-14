@@ -37,7 +37,7 @@ class DeleteUser implements ActionInterface
         $this->usersRepository->delete(new UUID($userUuid));
 
         return new SuccessfulResponse([
-            'uuid' => $userUuid
+            'action' => 'Пользователь: ' . $userUuid . ' успешно удален!'
         ]);
     }
 }

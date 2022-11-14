@@ -34,7 +34,7 @@ class DeleteComment implements ActionInterface
         }
 
         return new SuccessfulResponse(
-            ['action' => 'comment ' . $commentUuid . ' deleted successfully']
+            ['action' => 'Коммент: ' . $commentUuid . ' успешно удален!']
         );
     }
 }

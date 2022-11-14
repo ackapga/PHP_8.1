@@ -21,9 +21,6 @@ class DeletePostLike implements ActionInterface
     {
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function handle(Request $request): Response
     {
         try {
@@ -36,7 +33,7 @@ class DeletePostLike implements ActionInterface
         $this->likeRepository->remove($postLikeUuid);
 
         return new SuccessfulResponse(
-            ['action' => 'likes ' . $postLikeUuid . ' deleted successfully']
+            ['action' => 'Like: ' . $postLikeUuid . ' успешно удален!']
         );
     }
 }

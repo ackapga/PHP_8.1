@@ -34,9 +34,9 @@ class FindByUsername implements ActionInterface
         }
 
         return new SuccessfulResponse([
+            'UUID' => (string)$user->getUuidUser(),
             'username' => $user->getUsername(),
             'name' => $user->getName()->getFirstName() . ' ' . $user->getName()->getLastName(),
-            'uuid'=> (string)$user->getUuidUser(),
         ]);
     }
 }
