@@ -93,4 +93,21 @@ class SqliteAuthTokensRepository implements AuthTokensRepositoryInterface
             );
         }
     }
+
+    /**
+     * @param string $token
+     * @return void
+     */
+    public function logout(string $token): void
+    {
+        $date = (new DateTimeImmutable())->format(DateTimeInterface::ATOM);
+
+        $statement = $this->connection->prepare(
+            'UPDATE tokens SET expires_on = :new WHERE token = :token'
+        );
+        $statement->execute([
+            'token' => $token,
+            'new' => $date,
+        ]);
+    }
 }
