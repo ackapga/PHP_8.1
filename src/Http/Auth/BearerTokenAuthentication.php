@@ -1,19 +1,17 @@
 <?php
 
-namespace Ackapga\Habrahabr\Http\Actions\Auth;
+namespace Ackapga\Habrahabr\Http\Auth;
 
 use Ackapga\Habrahabr\Exceptions\AuthException;
 use Ackapga\Habrahabr\Exceptions\AuthTokenNotFoundException;
 use Ackapga\Habrahabr\Exceptions\HttpException;
-use Ackapga\Habrahabr\Http\Auth\TokenAuthenticationInterface;
+use Ackapga\Habrahabr\Http\Request;
 use Ackapga\Habrahabr\Interfaces\AuthTokensRepositoryInterface;
 use Ackapga\Habrahabr\Interfaces\UsersRepositoryInterface;
-use Ackapga\Habrahabr\Http\Request;
-use Ackapga\Habrahabr\Http\Response;
-use Ackapga\Habrahabr\Http\ErrorResponse;
-use Ackapga\Habrahabr\Http\SuccessfulResponse;
 use Ackapga\Habrahabr\Person\User;
 use DateTimeImmutable;
+use function Ackapga\Habrahabr\Http\Actions\Auth\mb_substr;
+use function Ackapga\Habrahabr\Http\Actions\Auth\str_starts_with;
 
 class BearerTokenAuthentication implements TokenAuthenticationInterface
 {

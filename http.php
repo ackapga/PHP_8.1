@@ -2,6 +2,7 @@
 
 use Ackapga\Habrahabr\Exceptions\AppException;
 use Ackapga\Habrahabr\Http\Actions\Auth\LogIn;
+use Ackapga\Habrahabr\Http\Actions\Auth\LogOut;
 use Ackapga\Habrahabr\Http\Actions\Comments\CreateComment;
 use Ackapga\Habrahabr\Http\Actions\Comments\DeleteComment;
 use Ackapga\Habrahabr\Http\Actions\Comments\FindByUuidComment;
@@ -51,6 +52,7 @@ $routes = [
     ],
     'POST' => [
         '/login' => LogIn::class,
+        '/logout' => Logout::class,
         '/users/create' => CreateUser::class,
         '/posts/create' => CreatePost::class,
         '/comments/create' => CreateComment::class,

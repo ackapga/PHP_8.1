@@ -1,7 +1,7 @@
 <?php
 
 use Ackapga\Habrahabr\Container\DIContainer;
-use Ackapga\Habrahabr\Http\Actions\Auth\BearerTokenAuthentication;
+use Ackapga\Habrahabr\Http\Auth\BearerTokenAuthentication;
 use Ackapga\Habrahabr\Http\Auth\PasswordAuthentication;
 use Ackapga\Habrahabr\Http\Auth\PasswordAuthenticationInterface;
 use Ackapga\Habrahabr\Http\Auth\TokenAuthenticationInterface;
